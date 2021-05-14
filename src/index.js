@@ -64,16 +64,16 @@ function activity() {
 };
 
 async function getHeartbeat() {
-  [heartbeat] = await instance.get('/users/current/heartbeats?date=' + date.format)
-  .then(({data: {data}}) => data);
+  heartbeat = await instance.get('/users/current/heartbeats?date=' + date.format)
+  .then(({data: {data}}) => data?.pop());
 };
 
 client.on('ready', async () => {
     console.log('Authed for user', client.user.username);
 
     await getHeartbeat();
-                                            // 15m
-    setInterval(async () => getHeartbeat(), 1000 * 60 * 60 * 15);
+                                            // 2m
+    setInterval(async () => getHeartbeat(), 1000 * 60 * 60 * 2);
     
     activity();
                                   // 1m
